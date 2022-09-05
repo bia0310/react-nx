@@ -1,0 +1,83 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/comp-showcase/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/comp-showcase",
+        "index": "apps/comp-showcase/src/index.html",
+        "baseHref": "/",
+        "main": "apps/comp-showcase/src/main.tsx",
+        "polyfills": "apps/comp-showcase/src/polyfills.ts",
+        "tsConfig": "apps/comp-showcase/tsconfig.app.json",
+        "assets": [
+          "apps/comp-showcase/src/favicon.ico",
+          "apps/comp-showcase/src/assets"
+        ],
+        "styles": ["apps/comp-showcase/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/comp-showcase/src/environments/environment.ts",
+              "with": "apps/comp-showcase/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "comp-showcase:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "comp-showcase:build:development"
+        },
+        "production": {
+          "buildTarget": "comp-showcase:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/comp-showcase/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/comp-showcase"],
+      "options": {
+        "jestConfig": "apps/comp-showcase/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
